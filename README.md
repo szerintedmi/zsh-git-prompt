@@ -56,6 +56,25 @@ PROMPT='%B%~%b$(git_super_status) %# '
 RPROMPT='$(git_super_status)'
 ```
 
+### Example: compact prompt
+
+The git status goes on the right, the path is cut to 35 characters from the left, and the hostname appears only over SSH:
+
+```zsh
+PROMPT='%B${SSH_CONNECTION:+%m:}%35<…<%~%<<%b %# '
+RPROMPT='$(git_super_status)'
+```
+
+```
+~/zsh-git-prompt %                                  (main|✔)
+…e-corporation/backend/services/api %            (main↑2|✚3)
+myserver:~/app %                                    (main|●1)
+```
+
+- `%35<…<` … `%<<` limits the path to 35 characters and replaces the cut-off part with `…`. The hostname and `%#` are never cut.
+- `${SSH_CONNECTION:+%m:}` adds `hostname:` only when `$SSH_CONNECTION` is set, which SSH does on the remote machine.
+- Add `setopt TRANSIENT_RPROMPT` if you want the right side to show only on the current line, not in your scrollback.
+
 ## Customize
 
 Set any of these in `~/.zshrc`, before or after sourcing the plugin:
